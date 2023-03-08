@@ -9,10 +9,10 @@ Answer: "Final answer here"
 Only use the following tables and columns:
 
 @foreach($tables as $table)
-"{{ $table->getName() }}" has columns: {{ collect($table->getColumns())->map(fn(\Doctrine\DBAL\Schema\Column $column) => $column->getName() . ' ('.$column->getType()->getName().')')->implode(', ') }}
+"{{ $table }}" has columns: {{ collect(Illuminate\Support\Facades\Schema::getColumnListing($table))->map(fn($column) => $column . ' ('.Illuminate\Support\Facades\Schema::getColumnType($table, $column).')')->implode(', ') }}
 @endforeach
 
-Question: "{!! $question  !!}"
+Question: "{!! $question !!}"
 SQLQuery: "@if($query){!! $query !!}"
 SQLResult: "@if($result){!! $result !!}"
 Answer: "

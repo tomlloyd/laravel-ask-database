@@ -115,9 +115,8 @@ class Oracle
     protected function getTables(string $question): array
     {
         return once(function () use ($question) {
-            $tables = DB::connection($this->connection)
-                ->getDoctrineSchemaManager()
-                ->listTables();
+            $tables = DB::select('SHOW TABLES');
+            $tables = array_map('current', $tables);
 
             if (count($tables) < config('ask-database.max_tables_before_performing_lookup')) {
                 return $tables;
@@ -142,7 +141,7 @@ class Oracle
             ->transform(fn (string $tableName) => strtolower(trim($tableName)));
 
         return collect($tables)->filter(function ($table) use ($matchingTables) {
-            return $matchingTables->contains(strtolower($table->getName()));
+            return $matchingTables->contains(strtolower($table));
         })->toArray();
     }
 }

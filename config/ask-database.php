@@ -26,4 +26,9 @@ return [
      * provided question.
      */
     'max_tables_before_performing_lookup' => env('ASK_DATABASE_MAXIMUM_TABLES', 15),
+
+    /**
+     * Key tables to be used as tables to search for all queries
+     */
+    'key_tables' => []
 ];

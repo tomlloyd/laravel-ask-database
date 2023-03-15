@@ -141,7 +141,7 @@ class Oracle
             ->transform(fn (string $tableName) => strtolower(trim($tableName)));
 
         return collect($tables)->filter(function ($table) use ($matchingTables) {
-            return $matchingTables->contains(strtolower($table));
+            return $matchingTables->contains(strtolower($table)) || collect(config('ask-database.key_tables'))->contains($table);
         })->toArray();
     }
 }
